@@ -657,21 +657,27 @@ ${text}
 JSON 배열만 출력한다. 설명, 인사말, 마크다운 백틱 모두 금지.
 형식: [{"category":"character","name":"이름","text":"내용"}]`;
 
-    const res = await fetch("https://api.anthropic.com/v1/messages", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        model: "claude-sonnet-4-6",
-        max_tokens: 3000,
-        messages: [{ role: "user", content: prompt }],
-      }),
-    });
-    const data = await res.json().catch(() => null);
-    if (!data || !Array.isArray(data.content)) {
-      throw new Error((data && data.error && data.error.message) || `응답 오류 (${res.status})`);
-    }
-    const raw = data.content.map((b) => (b.type === "text" ? b.text : "")).join("");
-    return parseItems(raw);
+    const res = await fetch("/api/organize", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({ prompt }),
+});
+
+const data = await res.json().catch(() => null);
+
+if (!res.ok) {
+  throw new Error(
+    data?.error || `API 오류 (${res.status})`
+  );
+}
+
+if (!data || typeof data.text !== "string") {
+  throw new Error("AI 응답이 올바르지 않습니다.");
+}
+
+return parseItems(data.text);
   }
 
   async function organize() {
