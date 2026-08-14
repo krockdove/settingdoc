@@ -8,8 +8,8 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       manifest: {
-        name: 'SettingDoc',
-        short_name: 'SettingDoc',
+        name: '설정 문서',
+        short_name: '설정 문서',
         description: '소설 설정을 정리하고 관리하는 웹앱',
         theme_color: '#ffffff',
         background_color: '#ffffff',
