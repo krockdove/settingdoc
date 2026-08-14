@@ -1736,7 +1736,7 @@ JSON 배열만 출력한다.
           <header className="sd-head">
             <div>
               <h1 className="sd-title">설정 문서</h1>
-              <p className="sd-sub">{work ? `${work.name} · 쏟아내면 항목별로 나눠 넣어 둡니다` : "쏟아내거나 원고째로 넣으면 항목별로 나눠 넣어 둡니다"}</p>
+              <p className="sd-sub">{work ? `${work.name} · 작성한 원고의 설정을 관리합니다` : "원고의 내용을 자동적으로 분류하여 관리합니다"}</p>
             </div>
             <div className="sd-right">
               <span className="sd-count">
@@ -2036,7 +2036,7 @@ JSON 배열만 출력한다.
                   value={draft}
                   onChange={(e) => setDraft(e.target.value)}
                   placeholder={
-                    "카엘은 스물셋, 왼쪽 눈에 흉터가 있다. 말수가 적고 검을 왼손으로 쓴다.\n은빛 골짜기는 일 년 내내 안개가 걷히지 않는 곳. 여기 사는 사람들은 소리로 길을 찾는다.\n재의 형제단은 마법을 쓰는 자를 색출하는 조직인데 정작 단장이 마법사다..."
+                    "원고를 붙여넣기 해주세요."
                   }
                 />
               )}
