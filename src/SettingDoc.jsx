@@ -409,6 +409,255 @@ const CSS = `
   .sd-tools{padding:8px;}
   .sd-toast{flex-wrap:wrap;gap:8px;}
 }
+/* =========================================================
+   SettingDoc UI refinement
+   - 원문 입력 : 설정 메모 = 45 : 55
+   - 읽기 편한 글자 크기와 여백
+   - 카드 밀도 조절
+   ========================================================= */
+
+/* 전체 작업 영역 */
+.sd-grid {
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: 28px;
+  align-items: start;
+}
+
+/* 데스크톱에서 작업 공간을 조금 더 넓게 */
+.sd-wrap {
+  max-width: 1280px;
+}
+
+/* 원문 입력 영역 */
+.sd-ta {
+  min-height: 420px;
+  padding: 18px 20px;
+  font-size: 15.5px;
+  line-height: 1.9;
+  border-radius: 6px;
+}
+
+.sd-ta:focus {
+  border-color: var(--focus);
+  box-shadow: 0 0 0 3px rgba(46, 138, 166, 0.08);
+}
+
+/* 입력 영역 주변의 설명 */
+.sd-hint {
+  font-size: 13.5px;
+  line-height: 1.7;
+  margin-top: 12px;
+}
+
+/* AI 정리 버튼 */
+.sd-btn {
+  border-radius: 6px;
+  padding: 12px 22px;
+  font-size: 14.5px;
+  font-weight: 600;
+}
+
+.sd-btn.ghost {
+  border-radius: 6px;
+}
+
+/* 오른쪽 필터 영역 */
+.sd-filters {
+  gap: 7px;
+  margin-bottom: 16px;
+}
+
+.sd-chip {
+  padding: 7px 13px;
+  font-size: 13.5px;
+}
+
+/* 검색창 */
+.sd-search {
+  height: 34px;
+  padding: 6px 14px;
+  font-size: 13.5px;
+}
+
+/* 설정 메모 카드 */
+.sd-card {
+  padding: 16px 18px;
+  margin-bottom: 12px;
+  border-left-width: 4px;
+  border-radius: 6px;
+  transition:
+    background .15s ease,
+    border-color .15s ease,
+    transform .12s ease;
+}
+
+.sd-card:hover {
+  background: var(--wash);
+  transform: translateY(-1px);
+}
+
+.sd-ctop {
+  gap: 10px;
+  margin-bottom: 4px;
+}
+
+.sd-cname {
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.45;
+}
+
+.sd-ccat {
+  font-size: 12.5px;
+}
+
+.sd-enum {
+  font-size: 12.5px;
+}
+
+.sd-preview {
+  margin-top: 7px;
+  font-size: 14.5px;
+  line-height: 1.8;
+  color: var(--body);
+}
+
+/* 실제 상세 메모 화면 */
+.sd-entry {
+  margin-bottom: 12px;
+  border-radius: 6px;
+}
+
+.sd-ehead {
+  padding: 14px 16px;
+}
+
+.sd-ename {
+  font-size: 17px;
+  line-height: 1.5;
+}
+
+.sd-body {
+  padding: 7px 16px 14px;
+}
+
+.sd-note {
+  padding: 10px 0;
+}
+
+.sd-ntext {
+  font-size: 15px;
+  line-height: 1.85;
+}
+
+/* 작품 탭 */
+.sd-works {
+  gap: 7px;
+  padding-bottom: 18px;
+  margin-bottom: 24px;
+}
+
+.sd-wtab {
+  padding: 8px 15px;
+  border-radius: 5px;
+}
+
+/* 상단 헤더 */
+.sd-head {
+  padding: 38px 0 24px;
+  margin-bottom: 28px;
+}
+
+.sd-title {
+  font-size: 29px;
+  letter-spacing: -0.025em;
+}
+
+.sd-sub {
+  margin-top: 5px;
+  font-size: 14.5px;
+  line-height: 1.6;
+}
+
+/* 버튼들의 터치 영역 */
+.sd-mini {
+  min-height: 34px;
+  padding: 6px 11px;
+  border-radius: 5px;
+}
+
+/* 파일 영역 */
+.sd-file {
+  border-radius: 6px;
+}
+
+/* 진행 상태 */
+.sd-bar {
+  height: 3px;
+  margin: 16px 0 9px;
+}
+
+/* ---------------------------------------------------------
+   태블릿
+   --------------------------------------------------------- */
+@media (max-width: 1000px) and (min-width: 721px) {
+  .sd-wrap {
+    padding: 0 24px;
+  }
+
+  .sd-grid {
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: 22px;
+  }
+
+  .sd-ta {
+    min-height: 360px;
+  }
+}
+
+/* ---------------------------------------------------------
+   모바일
+   --------------------------------------------------------- */
+@media (max-width: 720px) {
+  .sd-wrap {
+    padding: 0 14px;
+  }
+
+  .sd-grid {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .sd-ta {
+    min-height: 260px;
+    padding: 16px;
+    font-size: 15px;
+  }
+
+  .sd-card {
+    padding: 14px 15px;
+  }
+
+  .sd-cname {
+    font-size: 16px;
+  }
+
+  .sd-preview {
+    font-size: 14px;
+    line-height: 1.75;
+  }
+
+  .sd-filters {
+    margin-bottom: 14px;
+  }
+}
+
+/* ---------------------------------------------------------
+   다크 모드에서 포커스 강조
+   --------------------------------------------------------- */
+.sd-root[data-theme="dark"] .sd-ta:focus {
+  box-shadow: 0 0 0 3px rgba(94, 154, 168, 0.12);
+}
 `;
 
 /* 컴포넌트 밖에 둔다. 안에 두면 렌더마다 새로 마운트되어
