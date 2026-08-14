@@ -184,15 +184,15 @@ const CSS = `
   --danger:#E01A4F;
 
   /* 카테고리 강조색 */
-  --c-character:#D65B72;
-  --c-world:#40535A;
-  --c-place:#4D91A1;
-  --c-org:#D87458;
-  --c-event:#4C8FBE;
-  --c-item:#C49A3D;
-  --c-etc:#7E898E;
-  --c-system:#60866A;
-  --c-power:#8569A0;
+  --c-character:#E01A4F;
+  --c-world:#0C090D;
+  --c-place:#53B3CB;
+  --c-org:#F15946;
+  --c-event:#2196E3;
+  --c-item:#F9C22E;
+  --c-etc:#8A858F;
+  --c-system:#4E7A4F;
+  --c-power:#8A4FA8;
   
   background:var(--ink); color:var(--text);
   font-family:var(--font); font-weight:400;
