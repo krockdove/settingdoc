@@ -19,7 +19,7 @@ body,
   border-radius:3px;
   color:var(--muted);
   font-family:var(--font);
-  font-size:14px;
+  font-size:calc(14px * var(--font-scale));
   padding:8px 10px;
   cursor:pointer;
   margin:8px 0 14px;
@@ -46,7 +46,7 @@ body,
   justify-content:space-between;
   margin-bottom:11px;
   color:var(--text);
-  font-size:14px;
+  font-size:calc(14px * var(--font-scale));
   font-weight:600;
 }
 
@@ -73,7 +73,7 @@ body,
   background:var(--panel);
   color:var(--body);
   font-family:var(--font);
-  font-size:14px;
+  font-size:calc(14px * var(--font-scale));
   line-height:1.65;
   outline:none;
 }
