@@ -100,3 +100,49 @@ body,
     width:100%;
   }
 }
+
+.sd-font-controls {
+  display: flex;
+  align-items: center;
+  height: calc(30px * var(--font-scale));
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  background: var(--panel);
+  overflow: hidden;
+}
+
+.sd-font-btn {
+  width: calc(30px * var(--font-scale));
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--body);
+  font-family: var(--font);
+  font-size: calc(13px * var(--font-scale));
+  cursor: pointer;
+}
+
+.sd-font-btn:hover:not(:disabled) {
+  background: var(--wash);
+  color: var(--focus);
+}
+
+.sd-font-btn:disabled {
+  opacity: .3;
+  cursor: default;
+}
+
+.sd-font-scale {
+  min-width: calc(45px * var(--font-scale));
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-left: 1px solid var(--line);
+  border-right: 1px solid var(--line);
+  color: var(--muted);
+  font-family: var(--font);
+  font-size: calc(12px * var(--font-scale));
+  user-select: none;
+}

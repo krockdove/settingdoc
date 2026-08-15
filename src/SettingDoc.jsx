@@ -398,7 +398,7 @@ const CSS = `
 @media(hover:none){
   .sd-ntools,.sd-grip,.sd-ehead .sd-x{opacity:1;}
   .sd-mini{padding:7px 12px;}
-  .sd-ob{padding:6px 9px;font-size:calc(11px * var(--font-scale));}
+  .sd-ob{padding:6px 9px;font-size:11px;}
   .sd-x{padding:6px 8px;font-size:calc(17px * var(--font-scale));}
   .sd-chk{width:18px;height:18px;}
 }
@@ -1819,7 +1819,7 @@ JSON 배열만 출력한다.
     disabled={fontScale <= 0.9}
     title="글자 작게"
   >
-    A−
+    −
   </button>
 
   <span className="sd-font-scale">
@@ -1832,7 +1832,7 @@ JSON 배열만 출력한다.
     disabled={fontScale >= 1.25}
     title="글자 크게"
   >
-    A+
+    +
   </button>
 </div>
           </header>
