@@ -990,6 +990,7 @@ export default function SettingDoc() {
   const [find, setFind] = useState("");
   const [repl, setRepl] = useState("");
   const [toast, setToast] = useState(null);
+  const [newEntry, setNewEntry] = useState(null);
 
   const drag = useRef(null);
   const [dragId, setDragId] = useState(null);
@@ -1139,6 +1140,45 @@ export default function SettingDoc() {
     setToast(null);
     clearTimeout(toastTimer.current);
   }
+
+  function addEntry() {
+  if (locked || !workId || !newEntry) return;
+
+  const name = newEntry.name.trim();
+  const text = newEntry.text.trim();
+  const category = isCat(newEntry.category) ? newEntry.category : "etc";
+
+  if (!name) return;
+
+  const exists = entriesRef.current.some(
+    (e) =>
+      e.workId === workId &&
+      e.category === category &&
+      e.name.trim() === name
+  );
+
+  if (exists) {
+    setErr(`이미 '${name}' 항목이 있습니다.`);
+    return;
+  }
+
+  apply(`'${name}' 항목을 추가했습니다`, (prev) => [
+    ...prev,
+    {
+      id: uid(),
+      workId,
+      category,
+      name,
+      notes: text
+        ? [{ id: uid(), text }]
+        : [],
+    },
+  ]);
+
+  setFilter(category);
+  setNewEntry(null);
+  setErr("");
+}
 
   const source = file ? file.text : draft;
   const chunks = useMemo(() => (source.trim() ? toChunks(source) : []), [source]);
@@ -2232,7 +2272,105 @@ JSON 배열만 출력한다.
                   </>
                 )}
               </div>
+              {!locked && (
+  <button
+    className="sd-add-entry"
+    onClick={() => {
+      setErr("");
+      setNewEntry({
+        category: isCat(filter) ? filter : "character",
+        name: "",
+        text: "",
+      });
+    }}
+  >
+    ＋ 항목 추가
+  </button>
+)}           
+      {newEntry && !locked && (
+  <div className="sd-new-entry">
+    <div className="sd-new-entry-head">
+      <span>새 항목</span>
+      <button
+        className="sd-x"
+        onClick={() => setNewEntry(null)}
+        title="취소"
+      >
+        ×
+      </button>
+    </div>
 
+    <div className="sd-new-entry-row">
+      <select
+        className="sd-sel"
+        value={newEntry.category}
+        onChange={(e) =>
+          setNewEntry((x) => ({
+            ...x,
+            category: e.target.value,
+          }))
+        }
+      >
+        {CATS.map((c) => (
+          <option key={c.key} value={c.key}>
+            {c.label}
+          </option>
+        ))}
+      </select>
+
+      <input
+        className="sd-inp sd-new-entry-name"
+        autoFocus
+        value={newEntry.name}
+        placeholder="항목 이름"
+        onChange={(e) =>
+          setNewEntry((x) => ({
+            ...x,
+            name: e.target.value,
+          }))
+        }
+        onKeyDown={(e) => {
+          if (e.key === "Enter" && newEntry.name.trim()) {
+            addEntry();
+          }
+
+          if (e.key === "Escape") {
+            setNewEntry(null);
+          }
+        }}
+      />
+    </div>
+
+    <textarea
+      className="sd-new-entry-text"
+      value={newEntry.text}
+      placeholder="설명이나 메모를 입력하세요. (선택)"
+      onChange={(e) =>
+        setNewEntry((x) => ({
+          ...x,
+          text: e.target.value,
+        }))
+      }
+    />
+
+    <div className="sd-new-entry-actions">
+      <button
+        className="sd-mini"
+        onClick={() => setNewEntry(null)}
+      >
+        취소
+      </button>
+
+      <button
+        className="sd-btn"
+        disabled={!newEntry.name.trim()}
+        onClick={addEntry}
+      >
+        항목 추가
+      </button>
+    </div>
+  </div>
+)}
               {repOpen && !locked && (
                 <div className="sd-tools">
                   <input
