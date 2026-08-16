@@ -22,6 +22,7 @@ const CATS = [
   { key: "system", label: "제도" },
   { key: "power", label: "힘의 체계" },
   { key: "place", label: "장소" },
+  { key: "country", label: "국가" },
   { key: "org", label: "단체" },
   { key: "event", label: "사건·역사" },
   { key: "item", label: "물건·개념" },
@@ -991,7 +992,86 @@ export default function SettingDoc() {
   const [repl, setRepl] = useState("");
   const [toast, setToast] = useState(null);
   const [newEntry, setNewEntry] = useState(null);
+  const [customCats, setCustomCats] = useState(() => {
+    try {
+      const saved = localStorage.getItem("settingdoc-custom-cats");
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  });
   
+  const allCats = [...CATS, ...customCats];
+  const [newCatName, setNewCatName] = useState("");
+  function addCategory() {
+  const label = newCatName.trim();
+
+  if (!label) return;
+
+  const exists = allCats.some(
+    (cat) => cat.label.trim() === label
+  );
+
+  if (exists) {
+    setErr(`이미 '${label}' 분류가 있습니다.`);
+    return;
+  }
+
+  const key = `custom_${Date.now()}`;
+
+  const newCat = {
+    key,
+    label,
+  };
+
+  setCustomCats((prev) => {
+    const next = [...prev, newCat];
+    localStorage.setItem(
+      "settingdoc-custom-cats",
+      JSON.stringify(next)
+    );
+    return next;
+  });
+
+  setNewCatName("");
+  setErr("");
+}
+  function deleteCategory(key) {
+    const target = customCats.find((cat) => cat.key === key);
+
+    if (!target) return;
+
+    const ok = window.confirm(
+      `'${target.label}' 분류를 삭제할까요?\n\n이 분류에 속한 항목은 '기타'로 이동합니다.`
+    );
+
+    if (!ok) return;
+
+    setCustomCats((prev) => {
+      const next = prev.filter((cat) => cat.key !== key);
+
+      localStorage.setItem(
+        "settingdoc-custom-cats",
+        JSON.stringify(next)
+      );
+
+      return next;
+    });
+
+    // 해당 분류의 기존 항목을 기타로 이동
+    setMine((prev) =>
+      prev.map((item) =>
+        item.category === key
+          ? { ...item, category: "etc" }
+          : item
+      )
+    );
+
+    // 현재 삭제한 분류를 보고 있었다면 전체로 이동
+    if (filter === key) {
+      setFilter("all");
+    }
+  }
   const [fontScale, setFontScale] = useState(() => {
   const saved = localStorage.getItem("settingdoc-font-scale");
   return saved ? Number(saved) : 1;
@@ -2279,18 +2359,45 @@ JSON 배열만 출력한다.
                 <button className={"sd-chip" + (filter === "all" ? " on" : "")} onClick={() => setFilter("all")}>
                   전체 <span className="num">{mine.length}</span>
                 </button>
-                {CATS.map((c) => {
+                {allCats.map((c) => {
                   const n = mine.filter((e) => e.category === c.key).length;
-                  if (!n) return null;
+                  const isCustom = customCats.some((x) => x.key === c.key);
+
                   return (
-                    <button
+                    <div
                       key={c.key}
-                      className={"sd-chip" + (filter === c.key ? " on" : "")}
+                      className={
+                        "sd-chip" + (filter === c.key ? " on" : "")
+                      }
                       onClick={() => setFilter(c.key)}
+                      role="button"
+                      tabIndex={0}
                     >
-                      <span className="sd-dot" style={{ background: `var(--c-${c.key})` }} />
-                      {c.label} <span className="num">{n}</span>
-                    </button>
+                      <span
+                        className="sd-dot"
+                        style={{
+                          background: `var(--c-${c.key}, var(--muted))`,
+                        }}
+                      />
+
+                      {c.label}
+                      <span className="num">{n}</span>
+
+                      {isCustom && (
+                        <button
+                          type="button"
+                          className="sd-chip-delete"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            deleteCategory(c.key);
+                          }}
+                          title={`${c.label} 삭제`}
+                          aria-label={`${c.label} 삭제`}
+                        >
+                          ×
+                        </button>
+                      )}
+                    </div>
                   );
                 })}
                 {mine.length > 0 && (
@@ -2315,6 +2422,31 @@ JSON 배열만 출력한다.
                     </button>
                   </>
                 )}
+              </div>
+              <div className="sd-category-add">
+  <input
+    className="sd-inp"
+    value={newCatName}
+    placeholder="새 분류 이름"
+    onChange={(e) => setNewCatName(e.target.value)}
+    onKeyDown={(e) => {
+      if (e.key === "Enter") {
+        addCategory();
+      }
+
+      if (e.key === "Escape") {
+        setNewCatName("");
+      }
+    }}
+  />
+
+  <button
+    className="sd-mini"
+    onClick={addCategory}
+    disabled={!newCatName.trim()}
+  >
+    ＋ 분류 추가
+  </button>
               </div>
               {!locked && (
   <button
@@ -2355,7 +2487,7 @@ JSON 배열만 출력한다.
           }))
         }
       >
-        {CATS.map((c) => (
+        {allCats.map((c) => (
           <option key={c.key} value={c.key}>
             {c.label}
           </option>

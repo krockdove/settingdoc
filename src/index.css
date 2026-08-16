@@ -146,3 +146,29 @@ body,
   font-size: calc(12px * var(--font-scale));
   user-select: none;
 }
+
+.sd-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+}
+
+.sd-chip-delete {
+  width: 16px;
+  height: 16px;
+  margin-left: 1px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 16px;
+  cursor: pointer;
+}
+
+.sd-chip-delete:hover {
+  color: var(--focus);
+  background: var(--wash);
+}
