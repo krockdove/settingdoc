@@ -2241,8 +2241,7 @@ JSON 배열만 출력한다.
               {err && <p className="sd-err">{err}</p>}
               {!err && !pending && !prog && (
                 <p className="sd-hint">
-                  문장을 다듬지 않아도 됩니다. 긴 문단이나 마침표 없이 이어지는 문장도 알아서 끊어 읽고, 앞
-                  조각에서 찾은 이름을 뒤 조각이 이어받아 같은 인물이 흩어지지 않습니다.
+                  아이디어를 자유롭게 브레인스토밍하세요. AI가 문장을 분석하여 항목으로 분류합니다.
                 </p>
               )}
 
@@ -2427,7 +2426,7 @@ JSON 배열만 출력한다.
   <input
     className="sd-inp"
     value={newCatName}
-    placeholder="새 분류 이름"
+    placeholder="새 분류"
     onChange={(e) => setNewCatName(e.target.value)}
     onKeyDown={(e) => {
       if (e.key === "Enter") {
@@ -2445,7 +2444,7 @@ JSON 배열만 출력한다.
     onClick={addCategory}
     disabled={!newCatName.trim()}
   >
-    ＋ 분류 추가
+    ＋ 
   </button>
               </div>
               {!locked && (
